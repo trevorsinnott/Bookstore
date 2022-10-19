@@ -24,7 +24,7 @@ public class BookDAO {
 	protected void connect() throws SQLException {
 		if (jdbcConnection == null || jdbcConnection.isClosed()) {
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
+				Class.forName("com.mysql.cj.jdbc.Driver");
 			} catch (ClassNotFoundException e) {
 				// TODO: handle exception
 				throw new SQLException(e);
@@ -97,13 +97,13 @@ public class BookDAO {
 	}
 
 	public boolean updateBook(Book book) throws SQLException {
-		String sql = "UPDATE book SET title=?, author=?, price+?";
+		String sql = "UPDATE book SET title=?, author=?, price=?";
 		sql += " WHERE book_id=?";
 		connect();
 
 		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-		statement.setString(2, book.getTitle());
-		statement.setString(1, book.getAuthor());
+		statement.setString(1, book.getTitle());
+		statement.setString(2, book.getAuthor());
 		statement.setFloat(3, book.getPrice());
 		statement.setInt(4, book.getId());
 
